@@ -1,0 +1,18 @@
+ALTER TABLE users
+    ADD COLUMN text_search tsvector
+               GENERATED ALWAYS AS coalesce(email, '') || ' '  coalesce(name, '') || ' ' || coalesce(phone_number, '') STORED;
+
+CREATE OR REPLACE FUNCTION public.search_owners(search text)
+ RETURNS SETOF owners
+ LANGUAGE sql
+ STABLE
+AS $function$
+    SELECT *
+    FROM owners
+    WHERE
+      search <% text_search
+    ORDER BY similarity(search, text_search) DESC
+    LIMIT 5;
+$function$
+
+CREATE INDEX textsearch_idx ON owners USING GIN (text_search gin_trgm_ops) ;

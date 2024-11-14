@@ -1,0 +1,92 @@
+{
+  "name": "ta",
+  "version": "0.0.23",
+  "description": "Transporter automation",
+  "productName": "Fre8wise Transporter Automation",
+  "cordovaId": "com.fre8wise.ta.app",
+  "capacitorId": "",
+  "author": "samba@fre8wise.com",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ssuda/ta.git"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js,.vue src",
+    "test": "echo \"No test specified\" && exit 0",
+    "start-local-desktop": "export NODE_ENV=PROD&&export PROD=true&& quasar dev -m electron",
+    "start-local-web": "NODE_ENV=PROD&&PROD=true&& quasar dev",
+    "start-exe": "SET NODE_ENV=PROD && SET PROD=true&&quasar build -m electron",
+    "start-exe-from-mac": "export NODE_ENV=PROD && export PROD=true&&quasar build -m electron -target win"
+  },
+  "publish-gcs": {
+    "bucket": "fre8wise-ta.appspot.com",
+    "path": "/${name}/${os}/${arch}/${filename}",
+    "serviceAccount": "./i3ms/service-ta-key.json",
+    "public": true,
+    "resumable": true
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.5.1",
+    "apollo-boost": "^0.4.7",
+    "apollo-cache-inmemory": "^1.6.5",
+    "apollo-client": "^2.6.8",
+    "apollo-link-http": "^1.5.16",
+    "apollo-link-ws": "^1.0.19",
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "date-and-time": "^0.11.1",
+    "echarts": "^4.8.0",
+    "electron-log": "^4.0.6",
+    "electron-updater": "^4.2.2",
+    "firebase": "^7.6.1",
+    "firebase-admin": "^8.9.2",
+    "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "nedb": "^1.8.0",
+    "puppeteer": "^2.0.0",
+    "quasar": "^1.9.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "subscriptions-transport-ws": "^0.9.16",
+    "vue-apollo": "^3.0.2",
+    "vue-cookies": "^1.7.0",
+    "vue-echarts-v3": "^2.0.1",
+    "vue-i18n": "^8.15.3",
+    "ws": "^7.2.3",
+    "xlsx": "^0.15.4"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-async-to-generator": "^7.7.4",
+    "@quasar/app": "^1.5.5",
+    "@quasar/quasar-app-extension-icon-genie": "^1.1.3",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-node10": "^0.0.0-reserved",
+    "babel-preset-node8": "^1.2.0",
+    "devtron": "^1.4.0",
+    "electron": "^7.1.8",
+    "electron-builder": "^22.2.0",
+    "electron-debug": "^3.0.0",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-packager": "^14.1.1",
+    "electron-publisher-gcs": "^0.1.5",
+    "electron-rebuild": "^1.10.0",
+    "eslint": "^5.10.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "webpack": "^4.41.6"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "browserslist": [
+    "last 1 version, not dead, ie >= 11"
+  ]
+}

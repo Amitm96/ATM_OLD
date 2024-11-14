@@ -1,0 +1,136 @@
+<template>
+  <data-table
+    title="Trucks"
+    collection="trucks"
+    :columns="columns"
+    editrow="edittruck"
+    editprop="truck"
+    rowkey="name"
+    :searchField="searchFn"
+    :query="query"
+    :where="where"
+  >
+  </data-table>
+</template>
+<script>
+
+import { mapState } from 'vuex'
+import { listQuery } from '../utils/gql'
+
+const columns = [
+  {
+    name: 'truck_number',
+    align: 'left',
+    label: 'Truck No',
+    field: 'truck_number',
+    sortable: true
+  },
+  {
+    name: 'ownerName',
+    align: 'left',
+    label: 'Owner Name',
+    field: t => t.owner ? t.owner.name : '',
+    sortable: true
+  },
+  {
+    name: 'ownerGstnPan',
+    align: 'left',
+    label: 'Owner GSTN/PAN',
+    field: t => t.owner ? t.owner.gstn_pan : '',
+    sortable: true
+  },
+  {
+    name: 'ownerPhoneNumber',
+    align: 'left',
+    label: 'Owner Phone Number',
+    field: t => t.owner ? t.owner.phone_number : '',
+    sortable: true
+  },
+  { name: 'actions',
+    align: 'center'
+  }
+]
+
+export default {
+  name: 'PageTrucks',
+
+  data () {
+    return {
+      filter: '',
+      selected: [],
+      trucks: [],
+      loading: false,
+      name: null,
+      path: null,
+      columns,
+      query: listQuery('trucks', `
+        id
+        truck_number
+        owner {
+          id
+          name
+          phone_number
+          gstn_pan
+        }
+      `),
+      pagination: {
+        sortBy: 'truck_number',
+        descending: false,
+        page: 1,
+        rowsPerPage: 50,
+        rowsNumber: 1
+      }
+    }
+  },
+
+  computed: {
+    ...mapState('store', ['userDetails']),
+    where () {
+      return {
+        company_id: {
+          _eq: this.userDetails.company_id
+        }
+      }
+    }
+  },
+
+  methods: {
+    searchFn (filter) {
+      return {
+        _or: [
+          {
+            truck_number: {
+              _ilike: `%${filter}%`
+            }
+          },
+          {
+            owner: {
+              name: {
+                _ilike: `%${filter}%`
+              }
+            }
+          },
+          {
+            owner: {
+              phone_number: {
+                _ilike: `%${filter}%`
+              }
+            }
+          },
+          {
+            owner: {
+              gstn_pan: {
+                _ilike: `%${filter}%`
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+
+  components: {
+    'data-table': require('components/DataTable.vue').default
+  }
+}
+</script>
